@@ -16,7 +16,7 @@ export default function handler(req, res) {
     const { name, category, description, imageUrl } = req.body;
 
     const newItem = {
-      id, // You’re using the `id` from the URL — not recommended for POST
+      id, 
       name,
       category,
       description,
