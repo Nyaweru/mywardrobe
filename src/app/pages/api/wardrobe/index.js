@@ -19,7 +19,7 @@ export default function handler(req, res) {
       };
 
       global.wardrobeItems.push(newItem);
-      console.log("New item added", newItem); // 
+      console.log("New item added", newItem); 
 
       res.status(201).json(newItem);
     } catch (error) {

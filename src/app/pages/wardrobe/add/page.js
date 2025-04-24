@@ -24,10 +24,10 @@ export default function AddItem() {
       imageUrl: form.imageUrl,
     };
 
-    console.log("Submitting:", submissionData);
+    console.log("Submitting to API:", submissionData);
 
     try {
-      const res = await fetch("/api/items", {
+      const res = await fetch("/api/pgitems/", {
         method: "POST",
         body: JSON.stringify(submissionData),
         headers: {

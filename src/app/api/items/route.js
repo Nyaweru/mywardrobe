@@ -28,9 +28,15 @@ export async function GET() {
 export async function POST(request) {
   try {
     const db = await dbPromise;
-    const { name, category, description, imageUrl } = await request.json();
+    const body = await request.json();
 
-    if (!name || !category || !description || !imageUrl) {
+    const { name, category, description, imageUrl } = body;
+
+    // Debug log incoming request
+    console.log("Received POST data:", body);
+
+    // Basic validation
+    if (!name?.trim() || !category?.trim() || !description?.trim() || !imageUrl?.trim()) {
       return NextResponse.json({ error: "All fields are required" }, { status: 400 });
     }
 
@@ -38,6 +44,9 @@ export async function POST(request) {
       "INSERT INTO wardrobe (name, category, description, imageUrl) VALUES (?, ?, ?, ?)",
       [name, category, description, imageUrl]
     );
+
+    // Debug log insert result
+    console.log("Insert successful, ID:", result.lastID);
 
     return NextResponse.json({
       id: result.lastID,
@@ -49,10 +58,11 @@ export async function POST(request) {
 
   } catch (error) {
     console.error("Error adding item:", error);
-    return NextResponse.json({ error: "Error adding item" }, { status: 500 });
+    return NextResponse.json({ error: "Error adding item", details: error.message }, { status: 500 });
   }
 }
-/*export async function PUT(request) {
+
+export async function PUT(request) {
   try {
     const db = await dbPromise;
     const { id, name, category, description, imageUrl } = await request.json();
@@ -106,4 +116,4 @@ export async function DELETE(request) {
     console.error("Error deleting item:", error);
     return NextResponse.json({ error: "Error deleting item" }, { status: 500 });
   }
-}*/
+}
